@@ -13,3 +13,13 @@ class ChatListAPIView(generics.ListAPIView):
 class ChatDetailAPIView(generics.RetrieveAPIView):
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
+
+
+class ChatDeleteAPIView(generics.DestroyAPIView):
+    queryset = Chat.objects.all()
+    # serializer_class = ChatSerializer
+
+
+class ChatUpdateAPIView(generics.UpdateAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
