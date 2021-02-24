@@ -1,0 +1,7 @@
+.DS_Store
+.idea/
+*.xml
+*.iml
+db.sqlite3
+conf/__pycache__/
+.env
