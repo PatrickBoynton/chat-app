@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
     "chat.apps.ChatConfig",
     "api.apps.ApiConfig",
 ]
