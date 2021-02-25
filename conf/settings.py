@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost",
-                 "full-crud-chat-app-jpb3.herokuapp.com"]
+                 "https://full-stack-chat-app-jp3.herokuapp.com/"]
 
 # Application definition
 
