@@ -11,14 +11,14 @@ class App extends Component {
     }
 
     componentDidMount() {
-        fetch("http://127.0.0.1:8000/api/v1/chat")
+        fetch("/api/v1/chat")
             .then(response => response.json())
             .then(data => this.setState({chat: [data]}))
-
+        console.log(this.state);
     }
 
     handleSubmit() {
-        fetch("http://127.0.0.1:8000/api/v1/chat/", {
+        fetch("/api/v1/chat/", {
             method: "POST",
             headers: {
                 "Content-Type": "Application-Json"
@@ -32,7 +32,7 @@ class App extends Component {
     }
 
     handleEdit(id) {
-        fetch("http://127.0.0.1:8000/api/v1/" + id, {
+        fetch("/api/v1/" + id, {
             method: "PUT",
             headers: {
                 "Content-Type": "Application-Json"
@@ -46,7 +46,7 @@ class App extends Component {
     }
 
     handleDelete(id) {
-        fetch("http://127.0.0.1:8000/" + id, {
+        fetch("/" + id, {
             method: "DELETE"
         })
     }
@@ -58,6 +58,8 @@ class App extends Component {
                 <form action="" onSubmit={this.handleSubmit}>
                     <label htmlFor="name">Name</label>
                     <input type="text" name="name" id="name"/>
+                    <label htmlFor="title">Title</label>
+                    <input type="text" name="title"/>
                     <label htmlFor="text">Share your thoughts!</label>
                     <input type="text" name="text" id="text"/>
                     <button type="submit">Chat!</button>
