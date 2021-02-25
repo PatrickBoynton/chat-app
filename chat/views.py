@@ -5,7 +5,7 @@ from .serializers import ChatSerializer
 
 
 # Create your views here.
-class ChatListAPIView(generics.ListAPIView):
+class ChatListAPIView(generics.ListCreateAPIView):
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
 
