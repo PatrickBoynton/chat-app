@@ -6,18 +6,22 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chat: []
+            chat: [{
+                name: "",
+                title: "",
+                email: ""
+            }]
         }
     }
 
     componentDidMount() {
         fetch("/api/v1/chat")
             .then(response => response.json())
-            .then(data => this.setState({chat: [data]}))
-        console.log(this.state);
+            .then(data => this.setState({chat: [...data]}));
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         fetch("/api/v1/chat/", {
             method: "POST",
             headers: {
@@ -28,10 +32,11 @@ class App extends Component {
                 title: "My super title!",
                 text: "My fun episode!"
             })
-        })
+        });
+        console.log(this.state)
     }
 
-    handleEdit(id) {
+    handleEdit(e, id) {
         fetch("/api/v1/" + id, {
             method: "PUT",
             headers: {
@@ -52,10 +57,17 @@ class App extends Component {
     }
 
     render() {
+        const chats = this.state.chat?.map(x => (<li>
+                            <p>{x.name}</p>
+                            <h1>{x.title}</h1>
+                            <p>{x.text}</p>
+                            <button onClick={this.handleEdit}>Edit</button>
+                            <button onClick={this.handleDelete}>Delete</button>
+                        </li>));
         return (<>
             <div className="App">
                 <h1>Chat App</h1>
-                <form action="" onSubmit={this.handleSubmit}>
+                <form action="" onSubmit={(e) => this.handleSubmit(e)}>
                     <label htmlFor="name">Name</label>
                     <input type="text" name="name" id="name"/>
                     <label htmlFor="title">Title</label>
@@ -66,11 +78,9 @@ class App extends Component {
                 </form>
 
                 <div className="chat-display">
-                    <p>Name</p>
-                    <h1>Title</h1>
-                    <p>Text</p>
-                    <button onClick={this.handleEdit}>Edit</button>
-                    <button onClick={this.handleDelete}>Delete</button>
+                    <ul>
+                        {chats}
+                    </ul>
                 </div>
             </div>
         </>);
