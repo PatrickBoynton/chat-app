@@ -5,16 +5,50 @@ import {Component} from "react";
 class App extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            chat: []
+        }
     }
 
     componentDidMount() {
         fetch("http://127.0.0.1:8000/api/v1/chat")
             .then(response => response.json())
-            .then(data => data.map(x => console.log(x)))
+            .then(data => this.setState({chat: [data]}))
+
     }
 
     handleSubmit() {
-        return fetch("http://127.0.0.1:8000/api/v1/chat/")
+        fetch("http://127.0.0.1:8000/api/v1/chat/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "Application-Json"
+            },
+            body: JSON.stringify({
+                name: "Patrick",
+                title: "My super title!",
+                text: "My fun episode!"
+            })
+        })
+    }
+
+    handleEdit(id) {
+        fetch("http://127.0.0.1:8000/api/v1/" + id, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "Application-Json"
+            },
+            body: JSON.stringify({
+                name: "Patrick",
+                title: "My super title!",
+                text: "My fun episode!"
+            })
+        })
+    }
+
+    handleDelete(id) {
+        fetch("http://127.0.0.1:8000/" + id, {
+            method: "DELETE"
+        })
     }
 
     render() {
@@ -29,9 +63,13 @@ class App extends Component {
                     <button type="submit">Chat!</button>
                 </form>
 
-                <p>Name</p>
-                <h1>Title</h1>
-                <p>Text</p>
+                <div className="chat-display">
+                    <p>Name</p>
+                    <h1>Title</h1>
+                    <p>Text</p>
+                    <button onClick={this.handleEdit}>Edit</button>
+                    <button onClick={this.handleDelete}>Delete</button>
+                </div>
             </div>
         </>);
     };
