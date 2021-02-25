@@ -6,12 +6,10 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chat: [{
-                name: "",
-                title: "",
-                email: ""
-            }]
+            chat: []
         }
+
+        this.handleInput = this.handleInput.bind(this);
     }
 
     componentDidMount() {
@@ -20,27 +18,31 @@ class App extends Component {
             .then(data => this.setState({chat: [...data]}));
     }
 
-    handleSubmit(e) {
+    handleInput(event) {
+        this.setState({[event.target.name]: event.target.value})
+    }
+
+     async handleSubmit(e) {
         e.preventDefault();
-        fetch("/api/v1/chat/", {
+
+        await fetch("/api/v1/chat/", {
             method: "POST",
             headers: {
-                "Content-Type": "Application-Json"
+                "Content-Type": "Application/JSON"
             },
             body: JSON.stringify({
-                name: "Patrick",
-                title: "My super title!",
-                text: "My fun episode!"
+                name: this.state.name,
+                title: this.state.title,
+                text: this.state.text
             })
         });
-        console.log(this.state)
     }
 
     handleEdit(e, id) {
         fetch("/api/v1/" + id, {
             method: "PUT",
             headers: {
-                "Content-Type": "Application-Json"
+                "Content-Type": "Application/Json"
             },
             body: JSON.stringify({
                 name: "Patrick",
@@ -50,30 +52,42 @@ class App extends Component {
         })
     }
 
-    handleDelete(id) {
-        fetch("/" + id, {
+    handleDelete(id, state) {
+        fetch("api/v1/chat/" + id + "/delete/", {
             method: "DELETE"
         })
+        // this.setState({chat: []})
     }
 
     render() {
-        const chats = this.state.chat?.map(x => (<li>
+        const chats = this.state.chat.map((x) => (
+                        <li key={x.id}>
                             <p>{x.name}</p>
                             <h1>{x.title}</h1>
                             <p>{x.text}</p>
                             <button onClick={this.handleEdit}>Edit</button>
-                            <button onClick={this.handleDelete}>Delete</button>
+                            <button onClick={() => this.handleDelete(x.id, this.state)}>Delete</button>
                         </li>));
         return (<>
             <div className="App">
                 <h1>Chat App</h1>
                 <form action="" onSubmit={(e) => this.handleSubmit(e)}>
                     <label htmlFor="name">Name</label>
-                    <input type="text" name="name" id="name"/>
+                    <input type="text"
+                           value={this.state.chat.name}
+                           name="name"
+                           id="name"
+                           onChange={this.handleInput}/>
                     <label htmlFor="title">Title</label>
-                    <input type="text" name="title"/>
+                    <input type="text"
+                           value={this.state.chat.text}
+                           name="title"
+                           onChange={this.handleInput}/>
                     <label htmlFor="text">Share your thoughts!</label>
-                    <input type="text" name="text" id="text"/>
+                    <input type="text"
+                           value={this.state.chat.text}
+                           name="text"
+                           onChange={this.handleInput}/>
                     <button type="submit">Chat!</button>
                 </form>
 
