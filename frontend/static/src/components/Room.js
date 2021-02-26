@@ -8,6 +8,11 @@ class Room extends Component {
             <>
                 <Login/>
                 <Register/>
+                <ul>
+                    <li>
+                        <h3>Room title</h3>
+                    </li>
+                </ul>
             </>
         )
     }
