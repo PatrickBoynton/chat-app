@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    "django.contrib.sites",
     'django.contrib.messages',
     "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "rest_auth.registration"
+    "rest_auth.registration",
 
     "chat.apps.ChatConfig",
     "api.apps.ApiConfig",
@@ -137,3 +138,4 @@ REACT_APP_DIR = os.path.join(BASE_DIR, "frontend/static/")
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # This tells django about React
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'frontend/static/build/static'),)
+SITE_ID = 1
