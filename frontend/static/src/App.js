@@ -69,8 +69,12 @@ class App extends Component {
         return (<>
             <div className="App">
                 <h1>Chat App</h1>
-                <Form/>
-                <FormDisplay/>
+                <Form handleInput={this.handleInput}
+                      handleSubmit={this.handleSubmit}/>
+
+                <FormDisplay chat={this.state.chat}
+                             handleEdit={this.handleEdit}
+                             handleDelete={this.handleDelete}/>
             </div>
         </>);
     };
