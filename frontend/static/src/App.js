@@ -36,10 +36,11 @@ class App extends Component {
                 text: this.state.text
             })
         });
+        this.setState({name: this.state.name, title: this.state.title, text: this.state.text})
     }
 
-    handleEdit(e, id) {
-        fetch("/api/v1/" + id, {
+    handleEdit(id, event) {
+        fetch("/api/v1/chat/" + id + "/update/", {
             method: "PUT",
             headers: {
                 "Content-Type": "Application/Json"
@@ -52,11 +53,11 @@ class App extends Component {
         })
     }
 
-    handleDelete(id, state) {
+    handleDelete(id) {
         fetch("api/v1/chat/" + id + "/delete/", {
             method: "DELETE"
         })
-        // this.setState({chat: []})
+        this.setState({name: this.state.name, title: this.state.title, text: this.state.text})
     }
 
     render() {
@@ -65,7 +66,7 @@ class App extends Component {
                             <p>{x.name}</p>
                             <h1>{x.title}</h1>
                             <p>{x.text}</p>
-                            <button onClick={this.handleEdit}>Edit</button>
+                            <button onClick={(event) => this.handleEdit(x.id, event)}>Edit</button>
                             <button onClick={() => this.handleDelete(x.id, this.state)}>Delete</button>
                         </li>));
         return (<>
