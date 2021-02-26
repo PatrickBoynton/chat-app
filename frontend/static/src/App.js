@@ -2,6 +2,7 @@ import './App.css';
 import {Component} from "react";
 import Form from "./components/Form";
 import FormDisplay from "./components/FormDisplay";
+import Room from "./components/Room";
 
 
 class App extends Component {
@@ -75,6 +76,7 @@ class App extends Component {
                 <FormDisplay chat={this.state.chat}
                              handleEdit={this.handleEdit}
                              handleDelete={this.handleDelete}/>
+                <Room/>
             </div>
         </>);
     };
