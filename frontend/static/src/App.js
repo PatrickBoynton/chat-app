@@ -51,9 +51,9 @@ class App extends Component {
                 "Content-Type": "Application/Json"
             },
             body: JSON.stringify({
-                name: "Patrick",
-                title: "My super title!",
-                text: "My fun episode!"
+                name: this.state.name,
+                title: this.state.title,
+                text: this.state.text
             })
         })
     }
