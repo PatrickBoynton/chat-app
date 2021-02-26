@@ -1,5 +1,7 @@
 import './App.css';
 import {Component} from "react";
+import Form from "./components/Form";
+import FormDisplay from "./components/FormDisplay";
 
 
 class App extends Component {
@@ -10,6 +12,9 @@ class App extends Component {
         }
 
         this.handleInput = this.handleInput.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -22,7 +27,7 @@ class App extends Component {
         this.setState({[event.target.name]: event.target.value})
     }
 
-     async handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
 
         await fetch("/api/v1/chat/", {
@@ -39,7 +44,7 @@ class App extends Component {
         this.setState({name: this.state.name, title: this.state.title, text: this.state.text})
     }
 
-    handleEdit(id, event) {
+    handleEdit(id) {
         fetch("/api/v1/chat/" + id + "/update/", {
             method: "PUT",
             headers: {
@@ -61,42 +66,11 @@ class App extends Component {
     }
 
     render() {
-        const chats = this.state.chat.map((x) => (
-                        <li key={x.id}>
-                            <p>{x.name}</p>
-                            <h1>{x.title}</h1>
-                            <p>{x.text}</p>
-                            <button onClick={(event) => this.handleEdit(x.id, event)}>Edit</button>
-                            <button onClick={() => this.handleDelete(x.id, this.state)}>Delete</button>
-                        </li>));
         return (<>
             <div className="App">
                 <h1>Chat App</h1>
-                <form action="" onSubmit={(e) => this.handleSubmit(e)}>
-                    <label htmlFor="name">Name</label>
-                    <input type="text"
-                           value={this.state.chat.name}
-                           name="name"
-                           id="name"
-                           onChange={this.handleInput}/>
-                    <label htmlFor="title">Title</label>
-                    <input type="text"
-                           value={this.state.chat.text}
-                           name="title"
-                           onChange={this.handleInput}/>
-                    <label htmlFor="text">Share your thoughts!</label>
-                    <input type="text"
-                           value={this.state.chat.text}
-                           name="text"
-                           onChange={this.handleInput}/>
-                    <button type="submit">Chat!</button>
-                </form>
-
-                <div className="chat-display">
-                    <ul>
-                        {chats}
-                    </ul>
-                </div>
+                <Form/>
+                <FormDisplay/>
             </div>
         </>);
     };
