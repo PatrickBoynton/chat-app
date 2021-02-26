@@ -41,9 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "rest_auth.registration"
 
     "chat.apps.ChatConfig",
     "api.apps.ApiConfig",
+    "room.apps.RoomConfig",
 ]
 
 MIDDLEWARE = [
