@@ -6,9 +6,8 @@ class FormDisplay extends Component {
     }
 
     render() {
-
         const chats = this.props.chat?.map((x) => (
-            <li key={x.id} onClick={() => console.log("clicked!")}>
+            <li key={x.id} onClick={() => console.log(x.id)}>
                 <p>{x.name}</p>
                 <h1>{x.title}</h1>
                 <p>{x.text}</p>
