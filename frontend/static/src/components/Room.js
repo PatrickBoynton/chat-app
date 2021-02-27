@@ -15,7 +15,9 @@ class Room extends Component {
                 <FormDisplay chat={this.props.chat}
                              handleEdit={this.props.handleEdit}
                              handleDelete={this.props.handleDelete}/>
-                <Login handleInput={this.props.handleInput}/>
+                <Login user={this.props.user}
+                       handleLogin={this.props.handleLogin}
+                       handleInput={this.props.handleInput}/>
                 {/*Remember to change it to props when passing it down not state.*/}
                 <Register user={this.props.user}
                           handleRegistration={this.props.handleRegistration}
