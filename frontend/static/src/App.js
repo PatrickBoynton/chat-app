@@ -12,6 +12,7 @@ class App extends Component {
             isLoggedIn: !!Cookies.get("Authorization"),
             username: "",
             email: "",
+            password: "",
             password1: "",
             password2: ""
         }
@@ -21,6 +22,7 @@ class App extends Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleRegistration = this.handleRegistration.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
     }
 
     componentDidMount() {
@@ -33,7 +35,7 @@ class App extends Component {
         this.setState({[event.target.name]: event.target.value})
     }
 
-    async handlePost(e) {
+    async handlePost(e, object) {
         e.preventDefault();
 
         await fetch("/api/v1/chat/", {
@@ -94,9 +96,10 @@ class App extends Component {
         }
     }
 
-    handleLogin(e) {
+    handleLogin(e, object) {
+
+        console.log(object.user);
         e.preventDefault();
-        console.log(e.target);
     }
 
     render() {
@@ -109,6 +112,7 @@ class App extends Component {
                       handleEdit={this.handleEdit}
                       handleDelete={this.handleDelete}
                       handleRegistration={this.handleRegistration}
+                      handleLogin={this.handleLogin}
                       handleInput={this.handleInput}/>
             </div>
         </>);
