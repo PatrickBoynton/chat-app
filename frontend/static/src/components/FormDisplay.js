@@ -1,9 +1,6 @@
 import {Component} from "react";
 
 class FormDisplay extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const chats = this.props.chat?.map((x) => (
