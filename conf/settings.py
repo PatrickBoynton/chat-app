@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    "rest_framework.authtoken",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -138,4 +139,15 @@ REACT_APP_DIR = os.path.join(BASE_DIR, "frontend/static/")
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # This tells django about React
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'frontend/static/build/static'),)
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 SITE_ID = 1
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ]
+}
