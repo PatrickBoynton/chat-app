@@ -3,19 +3,28 @@ import {Component} from "react";
 import Form from "./components/Form";
 import FormDisplay from "./components/FormDisplay";
 import Room from "./components/Room";
+import Cookies from 'js-cookie';
 
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chat: []
+            chat: [],
+            isLoggedIn: !!Cookies.get("Authorization"),
+            user: {
+                username: "",
+                email: "",
+                password1: "",
+                password2: ""
+            }
         }
 
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleRegistration = this.handleRegistration.bind(this);
     }
 
     componentDidMount() {
@@ -66,6 +75,35 @@ class App extends Component {
         this.setState({name: this.state.name, title: this.state.title, text: this.state.text})
     }
 
+    async handleRegistration(e, object) {
+        e.preventDefault();
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": Cookies.get("csrftoken"),
+            },
+            body: JSON.stringify(object),
+        }
+
+        const response = await fetch("/rest-auth/registration/", options)
+        console.log(response);
+        const data = await response.json().catch((error) => console.log(error));
+        console.log(data);
+
+        if (data.key) {
+            Cookies.set("Authorization", `Token ${data.key}`)
+        }
+        this.setState({
+            user: {
+                username: this.state?.username,
+                email: this.state.email,
+                password1: this.state.password1,
+                password2: this.state.password2
+            }
+        })
+    }
+
     render() {
         return (<>
             <div className="App">
@@ -76,7 +114,8 @@ class App extends Component {
                 <FormDisplay chat={this.state.chat}
                              handleEdit={this.handleEdit}
                              handleDelete={this.handleDelete}/>
-                <Room/>
+                <Room user={this.state.user}
+                      handleRegistration={this.handleRegistration}/>
             </div>
         </>);
     };
