@@ -12,7 +12,7 @@ class Login  extends Component{
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password"/>
                 <button type="submit">Login</button>
-                <p>Don't have an account? Why not <a href="#">Register</a>first?</p>
+                <p>Don't have an account? Why not <a href="/">Register</a>first?</p>
             </form>
         </>)
     }
