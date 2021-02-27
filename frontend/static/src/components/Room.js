@@ -7,7 +7,8 @@ class Room extends Component {
         return (
             <>
                 <Login/>
-                <Register/>
+                {/*Remember to change it to props when passing it down not state.*/}
+                <Register handleRegistration={this.props.handleRegistration}/>
                 <ul>
                     <li>
                         <h3>Room title</h3>
