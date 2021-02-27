@@ -1,19 +1,25 @@
-import {Component} from 'react'
 import Login from "./Login";
 import Register from "./Register";
+import Form from "./Form";
+import FormDisplay from "./FormDisplay";
+import {Component} from "react";
 
 class Room extends Component {
     render() {
+
         return (
             <>
-                <Login/>
+                <Form handleInput={this.props.handleInput}
+                      handlePost={this.props.handlePost}/>
+
+                <FormDisplay chat={this.props.chat}
+                             handleEdit={this.props.handleEdit}
+                             handleDelete={this.props.handleDelete}/>
+                <Login handleInput={this.props.handleInput}/>
                 {/*Remember to change it to props when passing it down not state.*/}
-                <Register handleRegistration={this.props.handleRegistration}/>
-                <ul>
-                    <li>
-                        <h3>Room title</h3>
-                    </li>
-                </ul>
+                <Register user={this.props.user}
+                          handleRegistration={this.props.handleRegistration}
+                          handleInput={this.props.handleInput}/>
             </>
         )
     }
