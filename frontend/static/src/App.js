@@ -28,9 +28,9 @@ class App extends Component {
     }
 
     componentDidMount() {
-        fetch("/api/v1/chat")
-            .then(response => response.json())
-            .then(data => this.setState({chat: [...data]}));
+        // fetch("/api/v1/chat")
+        //     .then(response => response.json())
+        //     .then(data => this.setState({chat: [...data]}));
     }
 
     handleInput(event) {
@@ -87,19 +87,17 @@ class App extends Component {
         }
 
         const response = await fetch("/rest-auth/registration/", options)
-        console.log(response);
         const data = await response.json().catch((error) => console.log(error));
-        console.log(data);
-
+        console.log(data)
         if (data.key) {
             Cookies.set("Authorization", `Token ${data.key}`)
         }
         this.setState({
             user: {
-                username: this.state?.username,
-                email: this.state.email,
-                password1: this.state.password1,
-                password2: this.state.password2
+                username: this.props?.username,
+                email: this.props?.email,
+                password1: this.props?.password1,
+                password2: this.props?.password2
             }
         })
     }
