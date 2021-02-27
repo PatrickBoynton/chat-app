@@ -1,7 +1,5 @@
 import './App.css';
 import {Component} from "react";
-import Form from "./components/Form";
-import FormDisplay from "./components/FormDisplay";
 import Room from "./components/Room";
 import Cookies from 'js-cookie';
 
@@ -12,32 +10,30 @@ class App extends Component {
         this.state = {
             chat: [],
             isLoggedIn: !!Cookies.get("Authorization"),
-            user: {
-                username: "",
-                email: "",
-                password1: "",
-                password2: ""
-            }
+            username: "",
+            email: "",
+            password1: "",
+            password2: ""
         }
 
         this.handleInput = this.handleInput.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlePost = this.handlePost.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleRegistration = this.handleRegistration.bind(this);
     }
 
     componentDidMount() {
-        // fetch("/api/v1/chat")
-        //     .then(response => response.json())
-        //     .then(data => this.setState({chat: [...data]}));
+        fetch("/api/v1/chat")
+            .then(response => response.json())
+            .then(data => this.setState({chat: [...data]}));
     }
 
     handleInput(event) {
         this.setState({[event.target.name]: event.target.value})
     }
 
-    async handleSubmit(e) {
+    async handlePost(e) {
         e.preventDefault();
 
         await fetch("/api/v1/chat/", {
@@ -83,37 +79,37 @@ class App extends Component {
                 "Content-Type": "application/json",
                 "X-CSRFToken": Cookies.get("csrftoken"),
             },
-            body: JSON.stringify(object),
+            body: JSON.stringify({
+                username: object.user.username,
+                email: object.user.email,
+                password1: object.user.password1,
+                password2: object.user.password2
+            }),
         }
 
-        const response = await fetch("/rest-auth/registration/", options)
+        const response = await fetch("/rest-auth/registration/", options);
         const data = await response.json().catch((error) => console.log(error));
-        console.log(data)
         if (data.key) {
-            Cookies.set("Authorization", `Token ${data.key}`)
+            Cookies.set("Authorization", `Token ${data.key}`);
         }
-        this.setState({
-            user: {
-                username: this.props?.username,
-                email: this.props?.email,
-                password1: this.props?.password1,
-                password2: this.props?.password2
-            }
-        })
+    }
+
+    handleLogin(e) {
+        e.preventDefault();
+        console.log(e.target);
     }
 
     render() {
         return (<>
             <div className="App">
                 <h1>Chat App</h1>
-                <Form handleInput={this.handleInput}
-                      handleSubmit={this.handleSubmit}/>
-
-                <FormDisplay chat={this.state.chat}
-                             handleEdit={this.handleEdit}
-                             handleDelete={this.handleDelete}/>
-                <Room user={this.state.user}
-                      handleRegistration={this.handleRegistration}/>
+                <Room user={this.state}
+                      chat={this.state.chat}
+                      handlePost={this.handlePost}
+                      handleEdit={this.handleEdit}
+                      handleDelete={this.handleDelete}
+                      handleRegistration={this.handleRegistration}
+                      handleInput={this.handleInput}/>
             </div>
         </>);
     };
