@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, permissions
 from .models import Chat
+from .permissions import IsOwnerOrReadOnly
 from .serializers import ChatSerializer
 
 
@@ -15,6 +16,7 @@ class ChatListAPIView(generics.ListCreateAPIView):
 
 class ChatDetailAPIView(generics.RetrieveAPIView):
     queryset = Chat.objects.all()
+    permission_classes = (permissions.IsAdminUser | IsOwnerOrReadOnly)
     serializer_class = ChatSerializer
 
 
