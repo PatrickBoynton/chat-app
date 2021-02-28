@@ -23,12 +23,25 @@ class App extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleRegistration = this.handleRegistration.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
     componentDidMount() {
-        fetch("/api/v1/chat")
-            .then(response => response.json())
+        if (this.state.isLoggedIn) {
+            const options = {
+                headers: {
+                    "Content-Type": "Application/Json",
+                    "Authorization": Cookies.get("Authorization")
+                }
+            }
+            fetch("/api/v1/chat", options)
+                .then(response => response.json())
+                // .then(data => console.log(data));
             .then(data => this.setState({chat: [...data]}));
+            console.log("Logged in.")
+        } else {
+            console.log("Logged out.")
+        }
     }
 
     handleInput(event) {
@@ -41,7 +54,8 @@ class App extends Component {
         await fetch("/api/v1/chat/", {
             method: "POST",
             headers: {
-                "Content-Type": "Application/JSON"
+                "Content-Type": "Application/JSON",
+                "Authorization": Cookies.get("Authorization")
             },
             body: JSON.stringify({
                 name: this.state.name,
@@ -56,7 +70,8 @@ class App extends Component {
         fetch("/api/v1/chat/" + id + "/update/", {
             method: "PUT",
             headers: {
-                "Content-Type": "Application/Json"
+                "Content-Type": "Application/Json",
+                "Authorization": Cookies.get("Authorization")
             },
             body: JSON.stringify({
                 name: this.state.name,
@@ -68,13 +83,17 @@ class App extends Component {
 
     handleDelete(id) {
         fetch("api/v1/chat/" + id + "/delete/", {
-            method: "DELETE"
+            method: "DELETE",
+            headers:{
+                "Application-Type": "Application/Json",
+                "Authorization": Cookies.get("Authorization")
+            }
+
         })
         this.setState({name: this.state.name, title: this.state.title, text: this.state.text})
     }
 
     async handleRegistration(e, object) {
-        e.preventDefault();
         const options = {
             method: "POST",
             headers: {
@@ -93,13 +112,54 @@ class App extends Component {
         const data = await response.json().catch((error) => console.log(error));
         if (data.key) {
             Cookies.set("Authorization", `Token ${data.key}`);
+            this.setState({isLoggedIn: !!Cookies.get("Authorization")})
         }
+        e.preventDefault();
     }
 
-    handleLogin(e, object) {
-
-        console.log(object.user);
+    async handleLogin(e, object) {
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "Application/JSON",
+                "Authorization": Cookies.get("Authorization"),
+            },
+            body: JSON.stringify({
+                username: object.user.username,
+                email: object.user.email,
+                password: object.user.password
+            }),
+        }
+        const response = await fetch("/rest-auth/login/", options);
+        const data = await response.json().catch(error => console.log(error));
+        console.log(data);
+        // if (data.key) {
+        //     Cookies.set("Authorization", `Token ${data.key}`)
+        // }
+        // this.setState({isLoggedIn: !!Cookies.get("Authorization")})
         e.preventDefault();
+    }
+
+    async handleLogout(e) {
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "Application/Json",
+                "X-CSRFToken": Cookies.get("csrftoken")
+            },
+            // body: JSON.stringify({
+            //     username: object.user.username,
+            //     email: object.user.email,
+            //     password: object.user.password
+            // })
+        }
+        const response = await fetch("/rest-auth/logout/", options)
+        const data = await response.json().catch(error => console.log(error))
+
+        if (data.key) {
+            Cookies.remove("Authorization")
+            this.setState({[this.props.isLoggedIn]: !!Cookies.get("Authorization")})
+        }
     }
 
     render() {
@@ -113,6 +173,7 @@ class App extends Component {
                       handleDelete={this.handleDelete}
                       handleRegistration={this.handleRegistration}
                       handleLogin={this.handleLogin}
+                      handleLogout={this.handleLogout}
                       handleInput={this.handleInput}/>
             </div>
         </>);
