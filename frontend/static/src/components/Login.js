@@ -30,8 +30,8 @@ class Login extends Component {
                        value={this.props.password}
                        onChange={this.props.handleInput}/>
                 <button type="submit">Login</button>
-                <p>Don't have an account? Why not <a href="/">Register</a>first?</p>
             </form>
+            <p>Don't have an account? Why not <a onClick={() => this.props.loginOrRegister()} href="#">Register</a>first?</p>
         </>)
     }
 }

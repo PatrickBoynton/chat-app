@@ -38,7 +38,7 @@ class Register extends Component {
                            value={this.props.password2}
                            onChange={this.props.handleInput}/>
                     <button type="submit">Register</button>
-                    <p>Already have an account? Why not <a href="/">Login</a>?</p>
+                    <p>Already have an account? Why not <a onClick={() => this.props.loginOrRegister()} href="#">Login</a>?</p>
                 </form>
             </>
         )

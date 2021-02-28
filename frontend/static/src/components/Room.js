@@ -6,7 +6,19 @@ import {Component} from "react";
 import Cookies from 'js-cookie'
 
 class Room extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loginOrRegister: true
+        }
+        this.handleLoginOrRegister = this.handleLoginOrRegister.bind(this);
+    }
 
+    handleLoginOrRegister() {
+        this.setState((previousState) => ({
+            loginOrRegister: !previousState.loginOrRegister
+        }))
+    }
     render() {
 
         return (
@@ -15,13 +27,20 @@ class Room extends Component {
                     this.props.isLoggedIn === Cookies.get("Authorization")
                         ?
                         <>
-                            <Login user={this.props.user}
-                                   handleLogin={this.props.handleLogin}
-                                   handleInput={this.props.handleInput}/>
-                            {/*Remember to change it to props when passing it down not state.*/}
+                            {
+                                this.state.loginOrRegister
+                                ?
+                                   <Login user={this.props.user}
+                                          loginOrRegister={this.handleLoginOrRegister}
+                                          handleLogin={this.props.handleLogin}
+                                          handleInput={this.props.handleInput}/>
+                                :
+                                //Remember to change it to props when passing it down not state.
                             <Register user={this.props.user}
+                                      loginOrRegister={this.handleLoginOrRegister}
                                       handleRegistration={this.props.handleRegistration}
                                       handleInput={this.props.handleInput}/>
+                            }
                         </>
                         :
                         <>
