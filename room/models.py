@@ -6,3 +6,6 @@ from chat.models import Chat
 class Room(models.Model):
     title = models.CharField(max_length=100)
     chats = Chat
+
+    def __str__(self):
+        return self.title
