@@ -4,7 +4,8 @@ from chat.models import Chat
 
 # Create your models here.
 class Room(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, null=True)
+    description = models.CharField(max_length=100, null=True)
     chats = Chat
 
     def __str__(self):
