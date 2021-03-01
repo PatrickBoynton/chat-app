@@ -19,6 +19,7 @@ class Room extends Component {
             loginOrRegister: !previousState.loginOrRegister
         }))
     }
+
     render() {
 
         return (
@@ -29,17 +30,17 @@ class Room extends Component {
                         <>
                             {
                                 this.state.loginOrRegister
-                                ?
-                                   <Login user={this.props.user}
-                                          loginOrRegister={this.handleLoginOrRegister}
-                                          handleLogin={this.props.handleLogin}
-                                          handleInput={this.props.handleInput}/>
-                                :
-                                //Remember to change it to props when passing it down not state.
-                            <Register user={this.props.user}
-                                      loginOrRegister={this.handleLoginOrRegister}
-                                      handleRegistration={this.props.handleRegistration}
-                                      handleInput={this.props.handleInput}/>
+                                    ?
+                                    <Login user={this.props.user}
+                                           loginOrRegister={this.handleLoginOrRegister}
+                                           handleLogin={this.props.handleLogin}
+                                           handleInput={this.props.handleInput}/>
+                                    :
+                                    //Remember to change it to props when passing it down not state.
+                                    <Register user={this.props.user}
+                                              loginOrRegister={this.handleLoginOrRegister}
+                                              handleRegistration={this.props.handleRegistration}
+                                              handleInput={this.props.handleInput}/>
                             }
                         </>
                         :
@@ -50,7 +51,7 @@ class Room extends Component {
                             <FormDisplay chat={this.props.chat}
                                          handleEdit={this.props.handleEdit}
                                          handleDelete={this.props.handleDelete}/>
-                            <button onClick={(e) => this.props.handleLogout(e)}>Logout</button>
+                            <button onClick={() => this.props.handleLogout(this.props.user)}>Logout</button>
                         </>
 
                 }
