@@ -14,7 +14,7 @@ class App extends Component {
             email: "",
             password: "",
             password1: "",
-            password2: ""
+            password2: "",
         }
 
         this.handleInput = this.handleInput.bind(this);
@@ -31,13 +31,15 @@ class App extends Component {
             const options = {
                 headers: {
                     "Content-Type": "Application/Json",
+                    "X-CSRFToken": Cookies.get("csrftoken"),
                     "Authorization": Cookies.get("Authorization")
                 }
             }
+            console.log(options)
             fetch("/api/v1/chat", options)
                 .then(response => response.json())
-                // .then(data => console.log(data));
-            .then(data => this.setState({chat: [...data]}));
+                // .then(data => this.setState({chat: [...data]}));
+                .then(data => console.log(data));
             console.log("Logged in.")
         } else {
             console.log("Logged out.")
@@ -55,6 +57,7 @@ class App extends Component {
             method: "POST",
             headers: {
                 "Content-Type": "Application/JSON",
+                "X-CSRFToken": Cookies.get("csrftoken"),
                 "Authorization": Cookies.get("Authorization")
             },
             body: JSON.stringify({
@@ -71,7 +74,8 @@ class App extends Component {
             method: "PUT",
             headers: {
                 "Content-Type": "Application/Json",
-                "Authorization": Cookies.get("Authorization")
+                "Authorization": Cookies.get("Authorization"),
+                "X-CSRFToken": Cookies.get("csrftoken")
             },
             body: JSON.stringify({
                 name: this.state.name,
@@ -84,7 +88,7 @@ class App extends Component {
     handleDelete(id) {
         fetch("api/v1/chat/" + id + "/delete/", {
             method: "DELETE",
-            headers:{
+            headers: {
                 "Application-Type": "Application/Json",
                 "Authorization": Cookies.get("Authorization")
             }
@@ -112,8 +116,8 @@ class App extends Component {
         const data = await response.json().catch((error) => console.log(error));
         if (data.key) {
             Cookies.set("Authorization", `Token ${data.key}`);
-            this.setState({isLoggedIn: !!Cookies.get("Authorization")})
         }
+        this.setState({isLoggedIn: !!Cookies.get("Authorization")})
         e.preventDefault();
     }
 
@@ -122,7 +126,7 @@ class App extends Component {
             method: "POST",
             headers: {
                 "Content-Type": "Application/JSON",
-                "Authorization": Cookies.get("Authorization"),
+                "X-CSRFToken": Cookies.get("csrftoken"),
             },
             body: JSON.stringify({
                 username: object.user.username,
@@ -133,10 +137,10 @@ class App extends Component {
         const response = await fetch("/rest-auth/login/", options);
         const data = await response.json().catch(error => console.log(error));
         console.log(data);
-        // if (data.key) {
-        //     Cookies.set("Authorization", `Token ${data.key}`)
-        // }
-        // this.setState({isLoggedIn: !!Cookies.get("Authorization")})
+        if (data.key) {
+            Cookies.set("Authorization", `Token ${data.key}`)
+        }
+        this.setState({isLoggedIn: !!Cookies.get("Authorization")})
         e.preventDefault();
     }
 
@@ -144,22 +148,16 @@ class App extends Component {
         const options = {
             method: "POST",
             headers: {
-                "Content-Type": "Application/Json",
-                "X-CSRFToken": Cookies.get("csrftoken")
-            },
-            // body: JSON.stringify({
-            //     username: object.user.username,
-            //     email: object.user.email,
-            //     password: object.user.password
-            // })
+                "Content-Type": "Application/JSON",
+                "X-CSRFToken": Cookies.get("csrftoken"),
+            }
         }
+
         const response = await fetch("/rest-auth/logout/", options)
         const data = await response.json().catch(error => console.log(error))
-
-        if (data.key) {
-            Cookies.remove("Authorization")
-            this.setState({[this.props.isLoggedIn]: !!Cookies.get("Authorization")})
-        }
+        Cookies.remove("Authorization")
+        this.setState({isLoggedIn: !!Cookies.get("Authorization")})
+        console.log(data)
     }
 
     render() {
