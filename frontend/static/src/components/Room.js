@@ -1,7 +1,7 @@
 import Login from "./Login";
 import Register from "./Register";
-import Form from "./Form";
-import FormDisplay from "./FormDisplay";
+import Chat from "./Chat";
+import ChatDisplay from "./ChatDisplay";
 import {Component} from "react";
 import Cookies from 'js-cookie'
 
@@ -45,10 +45,10 @@ class Room extends Component {
                         </>
                         :
                         <>
-                            <Form handleInput={this.props.handleInput}
+                            <Chat handleInput={this.props.handleInput}
                                   handlePost={this.props.handlePost}/>
 
-                            <FormDisplay chat={this.props.chat}
+                            <ChatDisplay chat={this.props.chat}
                                          handleEdit={this.props.handleEdit}
                                          handleDelete={this.props.handleDelete}/>
                             <button onClick={() => this.props.handleLogout(this.props.user)}>Logout</button>

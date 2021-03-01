@@ -1,6 +1,6 @@
 import {Component} from "react";
 
-class FormDisplay extends Component {
+class ChatDisplay extends Component {
 
     render() {
         const chats = this.props.chat?.map((x) => (
@@ -21,4 +21,4 @@ class FormDisplay extends Component {
     }
 }
 
-export default FormDisplay
+export default ChatDisplay

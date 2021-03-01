@@ -1,4 +1,4 @@
-function Form(props) {
+function Chat(props) {
     return (
         <form action="" onSubmit={(e) => props.handlePost(e)}>
             <label htmlFor="name">Name</label>
@@ -21,4 +21,4 @@ function Form(props) {
     )
 }
 
-export default Form
+export default Chat
