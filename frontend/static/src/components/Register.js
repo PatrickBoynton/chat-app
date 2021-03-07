@@ -12,6 +12,7 @@ class Register extends Component {
         };
 
         this.handleRegistration = this.handleRegistration.bind(this);
+        this.handleInput = this.handleInput.bind(this);
     }
 
     async handleRegistration(e, object) {
@@ -20,17 +21,21 @@ class Register extends Component {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': Cookies.get('csrftoken'),
+                
             },
             body: JSON.stringify({
-                username: object.user.username,
-                email: object.user.email,
-                password1: object.user.password1,
-                password2: object.user.password2
+                username: object.username,
+                email: object.email,
+                password1: object.password1,
+                password2: object.password2
             }),
         };
 
         const response = await fetch('/rest-auth/registration/', options);
-        const data = await response.json().catch((error) => console.log(error));
+        const data = await response.json();
+
+        console.log("Registration data: " + data);
+
         if (data.key) {
             Cookies.set('Authorization', `Token ${data.key}`);
         }
@@ -38,28 +43,31 @@ class Register extends Component {
         e.preventDefault();
     }
 
+    handleInput(event) {
+        this.setState({[event.target.name]: event.target.value});
+    }
 
     render() {
         return (
             <>
                 <h2>Register</h2>
                 <form action="" onSubmit={(e) =>
-                    this.props.handleRegistration(e, this.props)}>
+                    this.handleRegistration(e, this.state)}>
                     <label htmlFor="username">Username</label>
                     <input type="text"
                            name="username"
-                           value={this.props.username}
-                           onChange={this.props.handleInput}/>
+                           value={this.state.username}
+                           onChange={this.handleInput}/>
                     <label htmlFor="email">Email</label>
                     <input type="email"
                            name="email"
-                           value={this.props.email}
-                           onChange={this.props.handleInput}/>
+                           value={this.state.email}
+                           onChange={this.handleInput}/>
                     <label htmlFor="password1">Password</label>
                     <input type="password"
                            name="password1"
-                           value={this.props.password1}
-                           onChange={this.props.handleInput}/>
+                           value={this.state.password1}
+                           onChange={this.handleInput}/>
                     <label htmlFor="password2">Confirm Password</label>
                     <input type="password"
                            name="password2"
