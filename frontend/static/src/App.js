@@ -10,8 +10,10 @@ class App extends Component {
         this.state = {
             chat: [],
             isLoggedIn: !!Cookies.get("Authorization"),
+            isEditMode: false,
             password: "",
         }
+        this.handleEditMode = this.handleEditMode.bind(this);
     }
 
     componentDidMount() {
@@ -26,11 +28,18 @@ class App extends Component {
             console.log(options)
             fetch("/api/v1/chat", options)
                 .then(response => response.json())
-                .then(data => this.setState({chat: [...data]}));
+                .then(data => {
+                    if (data.length > 0)
+                        this.setState({chat: [...data]})
+                });
             console.log("Logged in.")
         } else {
             console.log("Logged out.")
         }
+    }
+
+    handleEditMode() {
+        this.setState((previousState) => ({isEditMode: !previousState}))
     }
 
     render() {
@@ -39,6 +48,7 @@ class App extends Component {
                 <h1>Chat App</h1>
                 <Room user={this.state}
                       chat={this.state.chat}
+                      handleEditMode={this.handleEditMode}
                       isLoggedIn={this.state.isLoggedIn}
                       handleLogout={this.handleLogout}/>
             </div>
