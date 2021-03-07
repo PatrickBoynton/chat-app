@@ -1,15 +1,43 @@
-import {Component} from "react";
+import {Component} from 'react';
+import Cookies from 'js-cookie';
 
 class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
-            email: "",
-            password1: "",
-            password2: ""
-        }
+            username: '',
+            email: '',
+            password1: '',
+            password2: ''
+        };
+
+        this.handleRegistration = this.handleRegistration.bind(this);
     }
+
+    async handleRegistration(e, object) {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': Cookies.get('csrftoken'),
+            },
+            body: JSON.stringify({
+                username: object.user.username,
+                email: object.user.email,
+                password1: object.user.password1,
+                password2: object.user.password2
+            }),
+        };
+
+        const response = await fetch('/rest-auth/registration/', options);
+        const data = await response.json().catch((error) => console.log(error));
+        if (data.key) {
+            Cookies.set('Authorization', `Token ${data.key}`);
+        }
+        this.setState({isLoggedIn: !!Cookies.get('Authorization')});
+        e.preventDefault();
+    }
+
 
     render() {
         return (
@@ -38,11 +66,12 @@ class Register extends Component {
                            value={this.props.password2}
                            onChange={this.props.handleInput}/>
                     <button type="submit">Register</button>
-                    <p>Already have an account? Why not <a onClick={() => this.props.loginOrRegister()} href="#">Login</a>?</p>
+                    <p>Already have an account? Why not <a onClick={() => this.props.loginOrRegister()}
+                                                           href="#">Login</a>?</p>
                 </form>
             </>
-        )
+        );
     }
 }
 
-export default Register
+export default Register;
