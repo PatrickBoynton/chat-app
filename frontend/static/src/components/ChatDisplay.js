@@ -8,8 +8,8 @@ class ChatDisplay extends Component {
         this.handleDelete = this.handleDelete.bind(this);
     }
 
-    handleEdit(id) {
-        fetch('/api/v1/chat/' + id + '/update/', {
+    handleEdit(chat) {
+        fetch('/api/v1/chat/' + chat.id + '/update/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'Application/Json',
@@ -17,15 +17,17 @@ class ChatDisplay extends Component {
                 'X-CSRFToken': Cookies.get('csrftoken')
             },
             body: JSON.stringify({
-                name: this.state.name,
-                title: this.state.title,
-                text: this.state.text
+                name: chat.name,
+                text: chat.text
             })
         });
+
+        this.setState({name: chat.name, text: chat.title});
+        this.props.handleEditMode();
     }
 
-    handleDelete(id) {
-        fetch('api/v1/chat/' + id + '/delete/', {
+    handleDelete(chat) {
+        fetch('api/v1/chat/' + chat.id + '/delete/', {
             method: 'DELETE',
             headers: {
                 'Application-Type': 'Application/Json',
@@ -33,24 +35,24 @@ class ChatDisplay extends Component {
             }
 
         });
-        this.setState({name: this.state.name, title: this.state.title, text: this.state.text});
+        this.setState({name: chat.name, title: chat.title, text: chat.text});
     }
 
     render() {
         const chats = this.props.chat?.map((chat) => (
-            <li key={chat.id} onClick={() => console.log(chat.id)}>
+            <section key={chat.id} onClick={() => console.log(chat.id)}>
                 <p>{chat.name}</p>
                 <h1>{chat.title}</h1>
                 <p>{chat.text}</p>
-                <button onClick={(event) => this.props.handleEdit(chat.id, event)}>Edit</button>
-                <button onClick={() => this.props.handleDelete(chat.id, this.state)}>Delete</button>
-            </li>));
+                <button onClick={(event) => this.handleEdit(chat, event)}>Edit</button>
+                <button onClick={() => this.handleDelete(chat.id, this.state)}>Delete</button>
+            </section>));
         return (
-            <div className="chat-display">
-                <ul>
+            <>
+                <div className="chat-display">
                     {chats}
-                </ul>
-            </div>
+                </div>
+            </>
         );
     }
 }
