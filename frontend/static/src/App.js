@@ -2,7 +2,6 @@ import './App.css';
 import {Component} from "react";
 import Room from "./components/Room";
 import Cookies from 'js-cookie';
-import ChatDisplay from './components/ChatDisplay';
 
 
 class App extends Component {
@@ -13,9 +12,6 @@ class App extends Component {
             isLoggedIn: !!Cookies.get("Authorization"),
             password: "",
         }
-
-        this.handleLogin = this.handleLogin.bind(this);
-        this.handleLogout = this.handleLogout.bind(this);
     }
 
     componentDidMount() {
@@ -30,56 +26,11 @@ class App extends Component {
             console.log(options)
             fetch("/api/v1/chat", options)
                 .then(response => response.json())
-                // .then(data => this.setState({chat: [...data]}));
-                .then(data => console.log(data));
+                .then(data => this.setState({chat: [...data]}));
             console.log("Logged in.")
         } else {
             console.log("Logged out.")
         }
-    }
-
-    handleInput(event) {
-        this.setState({[event.target.name]: event.target.value})
-    }
-
-
-    async handleLogin(e, object) {
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "Application/JSON",
-                "X-CSRFToken": Cookies.get("csrftoken"),
-            },
-            body: JSON.stringify({
-                username: object.user.username,
-                email: object.user.email,
-                password: object.user.password
-            }),
-        }
-        const response = await fetch("/rest-auth/login/", options);
-        const data = await response.json().catch(error => console.log(error));
-        console.log(data);
-        if (data.key) {
-            Cookies.set("Authorization", `Token ${data.key}`)
-        }
-        this.setState({isLoggedIn: !!Cookies.get("Authorization")})
-        e.preventDefault();
-    }
-
-    async handleLogout(e) {
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "Application/JSON",
-                "X-CSRFToken": Cookies.get("csrftoken"),
-            }
-        }
-
-        const response = await fetch("/rest-auth/logout/", options)
-        const data = await response.json().catch(error => console.log(error))
-        Cookies.remove("Authorization")
-        this.setState({isLoggedIn: !!Cookies.get("Authorization")})
-        console.log(data)
     }
 
     render() {
@@ -88,7 +39,7 @@ class App extends Component {
                 <h1>Chat App</h1>
                 <Room user={this.state}
                       chat={this.state.chat}
-                      handleLogin={this.handleLogin}
+                      isLoggedIn={this.state.isLoggedIn}
                       handleLogout={this.handleLogout}/>
             </div>
         </>);
