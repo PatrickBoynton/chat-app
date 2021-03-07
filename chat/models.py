@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+# Room
+class Room(models.Model):
+    title = models.CharField(max_length=50)
+
+
 # Create your models here.
 class Chat(models.Model):
     name = models.CharField(max_length=50)
