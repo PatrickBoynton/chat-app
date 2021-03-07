@@ -1,11 +1,14 @@
 import {Component} from 'react';
 import Cookies from 'js-cookie';
+import Header from './Header';
 
 class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
             user: '',
+            name: '',
+            text: '',
         };
         this.handleInput = this.handleInput.bind(this);
         this.handlePost = this.handlePost.bind(this);
@@ -29,12 +32,12 @@ class Chat extends Component {
                 'Authorization': Cookies.get('Authorization')
             },
             body: JSON.stringify({
-                name: this.state.name,
+                name: this.state.user,
                 title: this.state.title,
                 text: this.state.text
             })
         });
-        this.setState({name: this.state.name, title: this.state.title, text: this.state.text});
+        this.setState({name: this.state.user, title: this.state.title, text: this.state.text});
     }
 
     handleInput(event) {
@@ -43,15 +46,18 @@ class Chat extends Component {
 
     render() {
         return (
-            <form action="" onSubmit={(e) => this.props.handlePost(e)}>
-                <p>{this.state.user}</p>
-                <label htmlFor="text">Share your thoughts!</label>
-                <input type="text"
-                       value={this.props.chat?.text}
-                       name="text"
-                       onChange={this.props.handleInput}/>
-                <button type="submit">Chat!</button>
-            </form>
+            <>
+                <Header/>
+                <form action="" onSubmit={(e) => this.handlePost(e)}>
+                    <p>{this.state.user}</p>
+                    <label htmlFor="text">Share your thoughts!</label>
+                    <input type="text"
+                           value={this.props.chat?.text}
+                           name="text"
+                           onChange={this.handleInput}/>
+                    <button type="submit">Chat!</button>
+                </form>
+            </>
         );
     }
 }
