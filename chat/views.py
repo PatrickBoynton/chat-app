@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics, permissions
-from .models import Chat
+from .models import Chat, Room
 from .permissions import IsOwnerOrReadOnly
-from .serializers import ChatSerializer
+from .serializers import ChatSerializer, RoomSerializer
 
 
 # Create your views here.
@@ -12,6 +12,11 @@ class ChatListAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+
+class RoomListView(generics.ListAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
 
 
 class ChatDetailAPIView(generics.RetrieveAPIView):
