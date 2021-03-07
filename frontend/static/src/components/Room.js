@@ -15,15 +15,6 @@ class Room extends Component {
         this.handleLoginOrRegister = this.handleLoginOrRegister.bind(this);
     }
 
-    async componentDidMount() {
-        const response = await fetch('/api/v1/chat/rooms');
-        const data = await response.json();
-        console.log(data);
-        if(!data.detail) {
-         this.setState({rooms: data});
-        }
-    }
-
     handleLoginOrRegister() {
         this.setState((previousState) => ({
             loginOrRegister: !previousState.loginOrRegister
@@ -46,9 +37,7 @@ class Room extends Component {
         console.log(data)
     }
     render() {
-        const rooms = this.state.rooms?.map(room => <section key={room.id}>
-            <button onClick={() => console.log(room.chat.title)}>{room.title}</button>
-        </section>);
+
         return (
             <>
                 {
@@ -78,9 +67,9 @@ class Room extends Component {
                                   handlePost={this.props.handlePost}/>
 
                             <ChatDisplay chat={this.props.chat}
+                                         handleEditMode={this.props.handleEditMode}
                                          handleEdit={this.props.handleEdit}
                                          handleDelete={this.props.handleDelete}/>
-                            {rooms}
                             <button onClick={() => this.handleLogout(this.props.user)}>Logout</button>
                         </>
 
