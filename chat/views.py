@@ -8,6 +8,7 @@ from .serializers import ChatSerializer, RoomSerializer
 # Create your views here.
 class ChatListAPIView(generics.ListCreateAPIView):
     queryset = Chat.objects.all()
+    permission_classes = (permissions.IsAuthenticated, )
     serializer_class = ChatSerializer
 
     def perform_create(self, serializer):
