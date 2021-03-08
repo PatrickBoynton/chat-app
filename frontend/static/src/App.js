@@ -15,6 +15,7 @@ class App extends Component {
             password: '',
             user: '',
             room: 2,
+            current_room: 2
         };
         this.handleEditMode = this.handleEditMode.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
