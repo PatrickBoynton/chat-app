@@ -1,6 +1,7 @@
 import './App.css';
-import {Component} from "react";
-import Room from "./components/Room";
+import {Component} from 'react';
+import Room from './components/Room';
+import Header from './components/Header';
 import Cookies from 'js-cookie';
 
 
@@ -9,45 +10,77 @@ class App extends Component {
         super(props);
         this.state = {
             chat: [],
-            isLoggedIn: !!Cookies.get("Authorization"),
+            isLoggedIn: !!Cookies.get('Authorization'),
             isEditMode: false,
-            password: "",
-        }
+            password: '',
+            user: '',
+            room: 2,
+        };
         this.handleEditMode = this.handleEditMode.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleRoomSwitch = this.handleRoomSwitch.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const response = await fetch('/rest-auth/user/');
+        const data = await response.json();
+        this.setState({user: data.username});
+        console.log(this.state.user);
         if (this.state.isLoggedIn) {
             const options = {
                 headers: {
-                    "Content-Type": "Application/Json",
-                    "X-CSRFToken": Cookies.get("csrftoken"),
-                    "Authorization": Cookies.get("Authorization")
+                    'Content-Type': 'Application/Json',
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                    'Authorization': Cookies.get('Authorization')
                 }
-            }
-            console.log(options)
-            fetch("/api/v1/chat", options)
+            };
+            fetch('/api/v1/chat', options)
                 .then(response => response.json())
                 .then(data => {
                     if (data.length > 0)
-                        this.setState({chat: [...data]})
+                        this.setState({chat: [...data]});
                 });
-            console.log("Logged in.")
+            console.log('Logged in.');
         } else {
-            console.log("Logged out.")
+            console.log('Logged out.');
         }
     }
 
     handleEditMode() {
-        this.setState((previousState) => ({isEditMode: !previousState}))
+        this.setState((previousState) => ({isEditMode: !previousState}));
+    }
+
+    handleRoomSwitch(room) {
+        this.setState({current_room: room.id})
+    }
+
+    handleEdit(chat) {
+        fetch('/api/v1/chat/' + chat.id + '/update/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'Application/Json',
+                'Authorization': Cookies.get('Authorization'),
+                'X-CSRFToken': Cookies.get('csrftoken')
+            },
+            body: JSON.stringify({
+                name: chat.name,
+                text: chat.text
+            })
+        });
+
+        this.setState({name: chat.name, text: chat.title});
+        this.props.handleEditMode();
     }
 
     render() {
         return (<>
             <div className="App">
                 <h1>Chat App</h1>
-                <Room user={this.state}
+                <Header handleRoomSwitch={this.handleRoomSwitch}/>
+                <Room current_room={this.state.current_room}
+                      user={this.state.user}
                       chat={this.state.chat}
+                      handleEdit={this.handleEdit}
                       handleEditMode={this.handleEditMode}
                       isLoggedIn={this.state.isLoggedIn}
                       handleLogout={this.handleLogout}/>
