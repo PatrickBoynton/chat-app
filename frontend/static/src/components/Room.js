@@ -23,19 +23,20 @@ class Room extends Component {
 
     async handleLogout(e) {
         const options = {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Content-Type": "Application/JSON",
-                "X-CSRFToken": Cookies.get("csrftoken"),
+                'Content-Type': 'Application/JSON',
+                'X-CSRFToken': Cookies.get('csrftoken'),
             }
-        }
+        };
 
-        const response = await fetch("/rest-auth/logout/", options)
-        const data = await response.json().catch(error => console.log(error))
-        Cookies.remove("Authorization")
-        this.setState({isLoggedIn: !!Cookies.get("Authorization")})
-        console.log(data)
+        const response = await fetch('/rest-auth/logout/', options);
+        const data = await response.json().catch(error => console.log(error));
+        Cookies.remove('Authorization');
+        this.setState({isLoggedIn: !!Cookies.get('Authorization')});
+        console.log(data);
     }
+
     render() {
 
         return (
@@ -63,10 +64,16 @@ class Room extends Component {
                         </>
                         :
                         <>
-                            <Chat handleInput={this.props.handleInput}
+                            <Chat current_room={this.props.current_room}
+                                  room={this.props.room}
+                                  user={this.props.user}
+                                  handleInput={this.props.handleInput}
                                   handlePost={this.props.handlePost}/>
 
-                            <ChatDisplay chat={this.props.chat}
+                            <ChatDisplay current_room={this.props.current_room}
+                                         room={this.state.rooms}
+                                         user={this.props.user}
+                                         chat={this.props.chat}
                                          handleEditMode={this.props.handleEditMode}
                                          handleEdit={this.props.handleEdit}
                                          handleDelete={this.props.handleDelete}/>
