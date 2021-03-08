@@ -9,21 +9,25 @@ class Chat extends Component {
             user: '',
             name: '',
             text: '',
+            room: 2,
+            current_room: 2
         };
         this.handleInput = this.handleInput.bind(this);
         this.handlePost = this.handlePost.bind(this);
     }
 
     async componentDidMount() {
-        const response = await fetch('/rest-auth/user/');
-        const data = await response.json();
-        this.setState({user: data.username});
-        console.log(this.state.user);
     }
 
     async handlePost(e, object) {
         e.preventDefault();
-
+        this.setState({
+            name: this.props.user,
+            title: this.state.title,
+            text: this.state.text,
+            room: this.props.current_room
+        });
+        console.log('From Post: ' + object);
         await fetch('/api/v1/chat/', {
             method: 'POST',
             headers: {
@@ -32,12 +36,12 @@ class Chat extends Component {
                 'Authorization': Cookies.get('Authorization')
             },
             body: JSON.stringify({
-                name: this.state.user,
+                name: this.props.user,
                 title: this.state.title,
-                text: this.state.text
+                text: this.state.text,
+                room: this.state.current_room
             })
         });
-        this.setState({name: this.state.user, title: this.state.title, text: this.state.text});
     }
 
     handleInput(event) {
@@ -47,12 +51,11 @@ class Chat extends Component {
     render() {
         return (
             <>
-                <Header/>
                 <form action="" onSubmit={(e) => this.handlePost(e)}>
-                    <p>{this.state.user}</p>
+                    <p>{this.props.user}</p>
                     <label htmlFor="text">Share your thoughts!</label>
                     <input type="text"
-                           value={this.props.chat?.text}
+                           value={this.state.chat?.text}
                            name="text"
                            onChange={this.handleInput}/>
                     <button type="submit">Chat!</button>
