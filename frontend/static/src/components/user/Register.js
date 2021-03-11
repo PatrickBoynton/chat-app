@@ -51,7 +51,7 @@ class Register extends Component {
         return (
             <>
                 <h2>Register</h2>
-                <form action="" onSubmit={(e) =>
+                <form method="/" onSubmit={(e) =>
                     this.handleRegistration(e, this.state)}>
                     <label htmlFor="username">Username</label>
                     <input type="text"

@@ -39,7 +39,7 @@ class Chat extends Component {
                 name: this.props.user,
                 title: this.state.title,
                 text: this.state.text,
-                room: this.state.current_room
+                room: this.props.current_room
             })
         });
     }
