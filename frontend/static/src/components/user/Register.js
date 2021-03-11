@@ -71,8 +71,8 @@ class Register extends Component {
                     <label htmlFor="password2">Confirm Password</label>
                     <input type="password"
                            name="password2"
-                           value={this.props.password2}
-                           onChange={this.props.handleInput}/>
+                           value={this.state.password2}
+                           onChange={this.handleInput}/>
                     <button className="btn btn-success" type="submit">Register</button>
                     <p>Already have an account? Why not <a onClick={() => this.props.loginOrRegister()}
                                                            href="#">Login</a>?</p>
