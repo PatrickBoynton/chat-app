@@ -2,6 +2,6 @@
 .idea/
 *.xml
 *.iml
-#db.sqlite3
+db.sqlite3
 conf/__pycache__/
 .env
