@@ -1,6 +1,6 @@
 import './App.css';
 import {Component} from 'react';
-import Room from './components/Room';
+import Room from './components/chat_app/Room';
 import Header from './components/Header';
 import Cookies from 'js-cookie';
 

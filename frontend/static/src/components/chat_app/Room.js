@@ -1,5 +1,5 @@
-import Login from './Login';
-import Register from './Register';
+import Login from '../user/Login';
+import Register from '../user/Register';
 import Chat from './Chat';
 import ChatDisplay from './ChatDisplay';
 import {Component} from 'react';

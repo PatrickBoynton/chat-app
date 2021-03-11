@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import Cookies from 'js-cookie';
-import Header from './Header';
+import Header from '../Header';
 
 class Chat extends Component {
     constructor(props) {
