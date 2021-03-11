@@ -27,7 +27,9 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "127.0.0.1:8000", 'localhost',
+ALLOWED_HOSTS = [
+                "127.0.0.1",
+                "localhost",
                  "full-stack-chat-app-jp3.herokuapp.com"]
 
 # Application definition
