@@ -57,30 +57,36 @@ class Login extends Component {
             Cookies.set('Authorization', `Token ${data.key}`);
             this.setState({isLoggedIn: !!Cookies.get('Authorization')});
         } else {
-            console.log('Did not log in.');
+            alert('Did not log in.');
         }
     }
 
     render() {
         return (<>
             <h2>Login</h2>
-            <form action="" onSubmit={(e) => this.handleLogin(e, this.state)}>
-                <label htmlFor="username">Username</label>
-                <input type="text"
-                       name="username"
-                       value={this.state.username}
-                       onChange={this.handleInput}/>
-                <label htmlFor="email">Email</label>
-                <input type="email"
-                       name="email"
-                       value={this.state.email}
-                       onChange={this.handleInput}/>
-                <label htmlFor="password">Password</label>
-                <input type="password"
-                       name="password"
-                       value={this.state.password}
-                       onChange={this.handleInput}/>
-                <button type="submit">Login</button>
+            <form className="d-flex flex-column" onSubmit={(e) => this.handleLogin(e, this.state)}>
+                <div className="input-group">
+                    <label htmlFor="username">Username</label>
+                    <input type="text"
+                           name="username"
+                           value={this.state.username}
+                           onChange={this.handleInput}/>
+                </div>
+                <div className="input-group">
+                    <label htmlFor="email">Email</label>
+                    <input type="email"
+                           name="email"
+                           value={this.state.email}
+                           onChange={this.handleInput}/>
+                </div>
+                <div className="input-group">
+                    <label htmlFor="password">Password</label>
+                    <input type="password"
+                           name="password"
+                           value={this.state.password}
+                           onChange={this.handleInput}/>
+                </div>
+                <button className="btn btn-primary" type="submit">Login</button>
             </form>
             <p>Don't have an account? Why not <a onClick={() => this.props.loginOrRegister()} href="#">Register</a>first?
             </p>

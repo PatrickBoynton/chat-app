@@ -18,12 +18,11 @@ class Header extends Component {
 
     render() {
         const rooms = this.state.rooms?.map(room => <section key={room.id}>
-            <button onClick={() => this.props.handleRoomSwitch(room)}>{room.title}</button>
+            <button className="btn btn-info mb-3" onClick={() => this.props.handleRoomSwitch(room)}>{room.title}</button>
 
         </section>);
         return <>
             {rooms}
-            <div>{this.state.test}</div>
         </>;
     }
 }

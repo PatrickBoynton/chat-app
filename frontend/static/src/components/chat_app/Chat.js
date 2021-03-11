@@ -53,12 +53,14 @@ class Chat extends Component {
             <>
                 <form action="" onSubmit={(e) => this.handlePost(e)}>
                     <p>{this.props.user}</p>
-                    <label htmlFor="text">Share your thoughts!</label>
-                    <input type="text"
-                           value={this.state.chat?.text}
-                           name="text"
-                           onChange={this.handleInput}/>
-                    <button type="submit">Chat!</button>
+                    <div className="input-group">
+                        <label htmlFor="text">Share your thoughts!</label>
+                        <input type="text"
+                               value={this.state.chat?.text}
+                               name="text"
+                               onChange={this.handleInput}/>
+                    </div>
+                    <button className="btn btn-success" type="submit">Chat!</button>
                 </form>
             </>
         );

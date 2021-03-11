@@ -29,13 +29,18 @@ class ChatDisplay extends Component {
                 {
                     chat.room === this.props.current_room
                         ?
-                        <>
+                        <div className="card">
                             <p>{chat.name}</p>
-                            <h1>{chat.title}</h1>
-                            <p>{chat.text}</p>
-                            <button onClick={(event) => this.props.handleEdit(chat, event)}>Edit</button>
-                            <button onClick={() => this.handleDelete(chat.id, this.state)}>Delete</button>
-                        </>
+                            <div className="card-body">
+                                <p>{chat.text}</p>
+                                <button className="btn btn-primary"
+                                        onClick={(event) => this.props.handleEdit(chat, event)}>Edit
+                                </button>
+                                <button style={{"margin-left": '5px'}} className="btn btn-danger"
+                                        onClick={() => this.handleDelete(chat.id, this.state)}>Delete
+                                </button>
+                            </div>
+                        </div>
                         :
                         null
                 }

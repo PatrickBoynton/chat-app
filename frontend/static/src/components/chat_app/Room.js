@@ -77,7 +77,7 @@ class Room extends Component {
                                          handleEditMode={this.props.handleEditMode}
                                          handleEdit={this.props.handleEdit}
                                          handleDelete={this.props.handleDelete}/>
-                            <button onClick={() => this.handleLogout(this.props.user)}>Logout</button>
+                            <button className="btn btn-danger" onClick={() => this.handleLogout(this.props.user)}>Logout</button>
                         </>
 
                 }
