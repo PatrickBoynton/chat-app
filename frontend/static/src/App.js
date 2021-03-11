@@ -81,6 +81,7 @@ class App extends Component {
                 <Room current_room={this.state.current_room}
                       user={this.state.user}
                       chat={this.state.chat}
+                      isEditMode={this.state.isEditMode}
                       handleEdit={this.handleEdit}
                       handleEditMode={this.handleEditMode}
                       isLoggedIn={this.state.isLoggedIn}
