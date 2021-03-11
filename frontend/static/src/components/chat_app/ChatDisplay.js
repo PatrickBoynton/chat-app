@@ -36,7 +36,8 @@ class ChatDisplay extends Component {
                                 <button className="btn btn-primary"
                                         onClick={(event) => this.props.handleEdit(chat, event)}>Edit
                                 </button>
-                                <button style={{"margin-left": '5px'}} className="btn btn-danger"
+                                <button style={{"margin-left": '5px'}}
+                                        className="btn btn-danger"
                                         onClick={() => this.handleDelete(chat.id, this.state)}>Delete
                                 </button>
                             </div>

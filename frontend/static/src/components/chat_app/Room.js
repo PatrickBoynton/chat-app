@@ -67,6 +67,7 @@ class Room extends Component {
                             <Chat current_room={this.props.current_room}
                                   room={this.props.room}
                                   user={this.props.user}
+                                  isEditMode={this.props.isEditMode}
                                   handleInput={this.props.handleInput}
                                   handlePost={this.props.handlePost}/>
 
@@ -74,6 +75,7 @@ class Room extends Component {
                                          room={this.state.rooms}
                                          user={this.props.user}
                                          chat={this.props.chat}
+                                         isEditMode={this.props.isEditMode}
                                          handleEditMode={this.props.handleEditMode}
                                          handleEdit={this.props.handleEdit}
                                          handleDelete={this.props.handleDelete}/>

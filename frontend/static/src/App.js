@@ -13,6 +13,7 @@ class App extends Component {
             isLoggedIn: !!Cookies.get('Authorization'),
             isEditMode: false,
             password: '',
+            id: 0,
             user: '',
             room: 2,
             current_room: 2
@@ -56,6 +57,7 @@ class App extends Component {
     }
 
     handleEdit(chat) {
+        this.props.handleEditMode();
         fetch('/api/v1/chat/' + chat.id + '/update/', {
             method: 'PUT',
             headers: {
@@ -64,13 +66,15 @@ class App extends Component {
                 'X-CSRFToken': Cookies.get('csrftoken')
             },
             body: JSON.stringify({
+                id: chat.id,
                 name: chat.name,
-                text: chat.text
+                text: chat.text,
+                owner: chat.owner,
+                room: chat.room
             })
         });
 
-        this.setState({name: chat.name, text: chat.title});
-        this.props.handleEditMode();
+        this.setState({name: chat.name, text: chat.text});
     }
 
     render() {
